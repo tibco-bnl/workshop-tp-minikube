@@ -2,8 +2,7 @@
 # This file configures Jekyll to properly render Mermaid diagrams
 
 # Theme (GitHub Pages default)
-theme: jekyll-theme-minimal
-# Or use: theme: jekyll-theme-cayman
+theme: jekyll-theme-cayman
 
 # Markdown processor
 markdown: kramdown
