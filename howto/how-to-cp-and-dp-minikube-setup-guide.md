@@ -718,13 +718,6 @@ Note: sslip.io uses dashes instead of dots for IP addresses to avoid FQDN valida
 - Certificate generation script SANs
 - Control Plane Helm values
 - Data Plane configuration
-EOF
-
-# Update environment variables
-export TP_CP_MY_DOMAIN="cp1-my.local"
-export TP_CP_TUNNEL_DOMAIN="cp1-tunnel.local"
-export TP_DP_DOMAIN="dp1-apps.local"
-```
 
 ---
 
