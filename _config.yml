@@ -1,0 +1,47 @@
+# GitHub Pages Configuration
+# This file configures Jekyll to properly render Mermaid diagrams
+
+# Theme (GitHub Pages default)
+theme: jekyll-theme-minimal
+# Or use: theme: jekyll-theme-cayman
+
+# Markdown processor
+markdown: kramdown
+
+# Kramdown settings
+kramdown:
+  input: GFM  # GitHub Flavored Markdown
+  hard_wrap: false
+  parse_block_html: true  # Required for Mermaid diagrams
+  syntax_highlighter: rouge
+
+# Site settings
+title: TIBCO Platform on Minikube Workshop
+description: Comprehensive guides for deploying TIBCO Platform on Minikube for local development and testing
+repository: kul/workshop-tp-minikube
+
+# Enable GitHub metadata
+plugins:
+  - jekyll-github-metadata
+  - jekyll-relative-links
+
+# Relative links configuration
+relative_links:
+  enabled: true
+  collections: true
+
+# Include files
+include:
+  - README.md
+  - howto
+  - scripts
+  - docs
+
+# Exclude files from site generation
+exclude:
+  - .git
+  - .gitignore
+  - .env-minikube
+  - certs
+  - "*.yaml"
+  - LICENSE

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  
+  <!-- GitHub Pages default CSS -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  
+  <!-- Mermaid.js for diagram rendering -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    
+    // Initialize Mermaid with custom configuration
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      themeVariables: {
+        primaryColor: '#0066cc',
+        primaryTextColor: '#333',
+        primaryBorderColor: '#0066cc',
+        lineColor: '#666',
+        secondaryColor: '#f0f0f0',
+        tertiaryColor: '#fff'
+      },
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis'
+      }
+    });
+  </script>
+  
+  <!-- Custom styles for better rendering -->
+  <style>
+    .mermaid {
+      text-align: center;
+      margin: 2em 0;
+    }
+    
+    /* Better code block styling */
+    pre.highlight {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      padding: 16px;
+      overflow: auto;
+    }
+    
+    /* Improve table styling */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1em 0;
+    }
+    
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    
+    table th {
+      background-color: #f6f8fa;
+      font-weight: 600;
+    }
+    
+    /* Responsive container */
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Header -->
+    <header>
+      <h1>{{ site.title }}</h1>
+      <p>{{ site.description }}</p>
+      
+      {% if site.github.is_project_page %}
+      <p class="view">
+        <a href="{{ site.github.repository_url }}">View on GitHub</a>
+      </p>
+      {% endif %}
+    </header>
+    
+    <!-- Main content -->
+    <main>
+      {{ content }}
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+      {% if site.github.is_project_page %}
+      <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+      {% endif %}
+      <p><small>Hosted on GitHub Pages</small></p>
+    </footer>
+  </div>
+</body>
+</html>
