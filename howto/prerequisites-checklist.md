@@ -1,3 +1,8 @@
+---
+layout: default
+title: Prerequisites Checklist for TIBCO Platform on Minikube
+---
+
 # Prerequisites Checklist for TIBCO Platform on Minikube
 
 **Document Purpose**: Comprehensive checklist of prerequisites and requirements for deploying TIBCO Platform Control Plane and Data Plane on Minikube.

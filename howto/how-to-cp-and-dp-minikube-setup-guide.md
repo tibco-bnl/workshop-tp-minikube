@@ -1,3 +1,8 @@
+---
+layout: default
+title: TIBCO Platform Control Plane and Data Plane Setup on Minikube
+---
+
 # TIBCO Platform Control Plane and Data Plane Setup on Minikube
 
 **Document Purpose**: Complete step-by-step guide for deploying TIBCO Platform Control Plane and Data Plane on Minikube for local development and testing.

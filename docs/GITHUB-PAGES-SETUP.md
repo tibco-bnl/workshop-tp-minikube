@@ -1,3 +1,8 @@
+---
+layout: default
+title: GitHub Pages Setup Instructions
+---
+
 # GitHub Pages Setup Instructions
 
 This repository is configured to support GitHub Pages with Mermaid.js diagram rendering.
