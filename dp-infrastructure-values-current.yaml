@@ -1,0 +1,19 @@
+global:
+  logging:
+    fluentbit:
+      enabled: true
+  proxy:
+    noProxy: ""
+  tibco:
+    containerRegistry:
+      repository: tibco-platform-docker-prod
+      url: csgprdeuwrepoedge.jfrog.io
+    cpCertificateSecret: dp-trusted-ca-certificate
+    dataPlaneId: d6a91t1522pc73cg66r0
+    serviceAccount: dp1sa
+    subscriptionId: d6a8pa1522pc73cg66q0
+tp-tibtunnel:
+  configure:
+    accessKey: YaEWtT5rxUYiqiFzJFTHAnauZEL0GA6/S+3+pjgT0/g
+  connect:
+    url: https://benelux.cp1-tunnel.lvh.me/sub-d6a8pa1522pc73cg66q0-dp-d6a91t1522pc73cg66r0

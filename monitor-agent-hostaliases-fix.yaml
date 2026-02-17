@@ -1,0 +1,39 @@
+# ============================================================================
+# TIBCO Platform Monitor Agent - DNS Fix for Minikube
+# ============================================================================
+#
+# PURPOSE:
+# Fix DNS resolution for cp-proxy component within the monitor agent capability
+#
+# USAGE:
+# helm upgrade tp-dp-monitor-agent-d6a9cqh522pc73cg66u0 \
+#   <chart-repo>/<chart-name> --version <version> -n dp1-ns \
+#   -f monitor-agent-values-current.yaml \
+#   -f monitor-agent-hostaliases-fix.yaml
+# ============================================================================
+
+# Global hostAliases for all components in this capability
+global:
+  hostAliases:
+    - ip: "10.105.44.31"  # Traefik service ClusterIP
+      hostnames:
+        - "benelux.cp1-my.lvh.me"
+        - "cp1-my.lvh.me"
+        - "account.cp1-my.lvh.me"
+        - "admin.cp1-my.lvh.me"
+        - "apiauth.cp1-my.lvh.me"
+        - "platform.cp1-my.lvh.me"
+        - "benelux.cp1-tunnel.lvh.me"
+        - "cp1-tunnel.lvh.me"
+
+# Specific hostAliases for cp-proxy subchart
+tp-cp-proxy:
+  hostAliases:
+    - ip: "10.105.44.31"
+      hostnames:
+        - "benelux.cp1-my.lvh.me"
+        - "cp1-my.lvh.me"
+        - "account.cp1-my.lvh.me"
+        - "admin.cp1-my.lvh.me"
+        - "apiauth.cp1-my.lvh.me"
+        - "platform.cp1-my.lvh.me"

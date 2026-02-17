@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tibco-ext
+  labels:
+    name: tibco-ext
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maildev
+  namespace: tibco-ext
+  labels:
+    app: development-mailserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: development-mailserver
+  template:
+    metadata:
+      labels:
+        app: development-mailserver
+    spec:
+      containers:
+        - name: maildev
+          image: maildev/maildev:latest
+          args: ["-s", "1025", "-w", "1080"]
+          ports:
+            - name: http
+              containerPort: 1080
+              protocol: TCP
+            - name: smtp
+              containerPort: 1025
+              protocol: TCP
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "25m"
+            limits:
+              memory: "64Mi"
+              cpu: "50m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: development-mailserver
+  namespace: tibco-ext
+spec:
+  selector:
+    app: development-mailserver
+  ports:
+    - protocol: TCP
+      port: 1080
+      targetPort: 1080
+      name: http
+    - protocol: TCP
+      port: 1025
+      targetPort: 1025
+      name: smtp
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: maildev-ingress
+  namespace: tibco-ext
+  labels:
+    app: development-mailserver
+  annotations:
+    # Traefik specific annotations (change for nginx if using nginx)
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - mail.127.0.0.1.nip.io
+      secretName: maildev-tls-cert
+  rules:
+    - host: mail.127.0.0.1.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: development-mailserver
+                port:
+                  number: 1080

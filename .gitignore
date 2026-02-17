@@ -1,0 +1,51 @@
+# TIBCO Platform Minikube - Git Ignore File
+
+# Generated certificates and keys
+certs/
+*.pem
+*.crt
+*.key
+*.csr
+*.p12
+*.jks
+
+# Environment files with credentials
+.env-minikube
+.credentials
+*credentials.txt
+cp-credentials.txt
+dp-credentials.txt
+
+# Helm values files with secrets
+*-values.yaml
+*-values-local.yaml
+
+# Kubernetes manifests with secrets
+*-secret.yaml
+*bootstrap.yaml
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+.vscode/
+.idea/
+
+# Minikube files
+.minikube/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Downloaded binaries
+bin/
+
+# Test files
+test-*.yaml
+test-*.sh

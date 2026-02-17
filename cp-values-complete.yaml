@@ -1,0 +1,143 @@
+# TIBCO Platform Control Plane - Complete Configuration
+# Chart: tibco-cp-base version 1.14.0
+
+# Bootstrap components
+hybrid-proxy:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    tls:
+      - secretName: tp-certificate-tunnel
+        hosts:
+          - '*.cp1-tunnel.lvh.me'
+    hosts:
+      - host: '*.cp1-tunnel.lvh.me'
+        paths:
+          - path: /
+            pathType: Prefix
+            port: 105
+
+router-operator:
+  enabled: true
+  tscSessionKey:
+    secretName: session-keys
+    key: TSC_SESSION_KEY
+  domainSessionKey:
+    secretName: session-keys
+    key: DOMAIN_SESSION_KEY
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    tls:
+      - secretName: tp-certificate-my
+        hosts:
+          - '*.cp1-my.lvh.me'
+    hosts:
+      - host: '*.cp1-my.lvh.me'
+        paths:
+          - path: /
+            pathType: Prefix
+            port: 100
+
+resource-set-operator:
+  enabled: true
+
+# Router configuration for DNS validation
+tp-cp-configuration:
+  settings:
+    - name: infra.router.valid.tibco.domains
+      value: ".lvh.me"
+    - name: infra.router.supported.domains.regex
+      value: "([^.]+\\.lvh\\.me)"
+
+# Global configuration
+global:
+  tibco:
+    controlPlaneInstanceId: "cp1"
+    serviceAccount: cp1-sa
+    containerRegistry:
+      url: csgprdeuwrepoedge.jfrog.io
+      repository: tibco-platform-docker-prod
+    logging:
+      fluentbit:
+        enabled: false
+  
+  external:
+    dnsDomain: cp1-my.lvh.me
+    dnsTunnelDomain: cp1-tunnel.lvh.me
+    db_host: postgres-cp1-postgresql.cp1-ns.svc.cluster.local
+    db_port: "5432"
+    db_name: postgres
+    db_secret_name: provider-cp-database-credentials
+    db_ssl_mode: disable
+    fromAndReplyToEmailAddress: noreply@lvh.me
+    storage:
+      pvcName: "control-plane-pvc"
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 5Gi
+    # Admin user configuration
+    admin:
+      email: admin@tibco.com
+      firstname: admin
+      lastname: user
+      customerID: minikube-customer-id
+
+# Core configuration
+tp-cp-core:
+  serviceAccount: cp1-sa
+  cpDbConfiguration:
+    secretName: provider-cp-database-credentials
+  encryption:
+    secret:
+      secretName: cporch-encryption-secret
+      key: CP_ENCRYPTION_SECRET
+  
+  tp-cp-core-ops:
+    serviceAccount: cp1-sa
+    volumePermissions:
+      storageClassName: standard
+    providers:
+      postgres:
+        storage:
+          pvcName: control-plane-pvc
+          storageClassName: standard
+
+tp-cp-integration-core:
+  serviceAccount: cp1-sa
+
+tp-identity-management:
+  serviceAccount: cp1-sa
+
+# Ingress configuration
+httpproxy:
+  ingress:
+    ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+  tls:
+    my:
+      secretName: tp-certificate-my
+    tunnel:
+      secretName: tp-certificate-tunnel
+
+# Email configuration
+tp-cp-email-service:
+  serviceAccount: cp1-sa
+  smtp:
+    host: development-mailserver.tibco-ext.svc.cluster.local
+    port: 1025
+    auth:
+      username: ""
+      password: ""
+    tls:
+      enabled: false

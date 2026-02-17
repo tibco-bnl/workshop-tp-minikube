@@ -1,0 +1,33 @@
+global:
+  cp:
+    containerRegistry:
+      repository: tibco-platform-docker-prod
+      secret: d6a91t1522pc73cg66r0
+      url: csgprdeuwrepoedge.jfrog.io
+    cpCertificateSecret: dp-trusted-ca-certificate
+    cpHostname: benelux.cp1-my.lvh.me
+    dataplane:
+      hostCloudType: k8s
+    dataplaneId: d6a91t1522pc73cg66r0
+    enableClusterScopedPerm: true
+    environmentType: production
+    infraCapabilities:
+    - MONITORINGAGENT
+    - CPPROXY
+    - O11Y
+    instanceId: d6a9cqh522pc73cg66u0
+    logging:
+      fluentbit:
+        enabled: true
+    namespace: dp1-ns
+    proxy:
+      httpProxy: ""
+      httpsProxy: ""
+      noProxy: ""
+    resources:
+      serviceaccount:
+        namespace: dp1-ns
+        serviceAccountName: dp1sa
+    subscriptionId: d6a8pa1522pc73cg66q0
+image:
+  tag: "352"

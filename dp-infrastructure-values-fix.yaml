@@ -1,0 +1,94 @@
+# ============================================================================
+# TIBCO Platform Data Plane Infrastructure - DNS Fix for Minikube
+# ============================================================================
+#
+# PURPOSE:
+# This file fixes connectivity issues on Minikube for Data Plane components
+# that need to connect to Control Plane when using lvh.me DNS strategy.
+# It overrides DNS resolution inside pods that connect to Control Plane.
+#
+# PROBLEM:
+# - lvh.me domains resolve to 127.0.0.1 everywhere (including inside pods)
+# - From inside a pod, 127.0.0.1 = pod's localhost (NOT the Minikube node)
+# - Pods trying to connect to *.cp1-my.lvh.me or *.cp1-tunnel.lvh.me fail
+# - Connection fails: "dial tcp 127.0.0.1:443: connect: connection refused"
+#
+# AFFECTED COMPONENTS:
+# - tp-tibtunnel: Connects to tunnel endpoint (*.cp1-tunnel.lvh.me)
+# - tp-cp-proxy: Connects to Control Plane IDM/OAuth2 (*.cp1-my.lvh.me)
+# - Other Data Plane components that connect to Control Plane APIs
+#
+# SOLUTION:
+# - Use hostAliases to override DNS resolution inside affected pods
+# - Make CP domains resolve to Traefik service ClusterIP instead
+#
+# USAGE:
+# 1. Get Traefik service ClusterIP:
+#    kubectl get svc traefik -n traefik -o jsonpath='{.spec.clusterIP}'
+#
+# 2. Update the IP address below with your Traefik ClusterIP
+#
+# 3. Delete any failed Jobs:
+#    kubectl delete job -n dp1-ns cp-proxy-client-credential-creation
+#
+# 4. Apply this fix:
+#    helm upgrade dp-core-infrastructure tibco-platform/dp-core-infrastructure \
+#      --version 1.14.2 -n dp1-ns \
+#      -f dp-infrastructure-values-current.yaml \
+#      -f dp-infrastructure-values-fix.yaml
+#
+# 5. Or patch resources directly (for quick testing):
+#    kubectl patch deployment tp-tibtunnel -n dp1-ns --type=json -p='[
+#      {"op": "add", "path": "/spec/template/spec/hostAliases", "value": [
+#        {"ip": "10.105.44.31", "hostnames": [
+#          "benelux.cp1-my.lvh.me", "cp1-my.lvh.me",
+#          "benelux.cp1-tunnel.lvh.me", "cp1-tunnel.lvh.me"
+#        ]}
+#      ]}
+#    ]'
+#
+# REFERENCES:
+# - Kubernetes hostAliases: https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
+# - Troubleshooting Guide: howto/how-to-cp-and-dp-minikube-setup-guide.md (Issue 9)
+#
+# ============================================================================
+
+# Global hostAliases that will be applied to all Data Plane components
+# This ensures consistent DNS resolution across all pods
+global:
+  hostAliases:
+    - ip: "10.105.44.31"  # ⚠️ IMPORTANT: Replace with YOUR Traefik service ClusterIP
+      hostnames:
+        # Control Plane MY domain (for API/OAuth2/IDM access)
+        - "benelux.cp1-my.lvh.me"       # Your subscription MY domain
+        - "cp1-my.lvh.me"                # Base MY domain
+        - "account.cp1-my.lvh.me"        # Account service
+        - "admin.cp1-my.lvh.me"          # Admin console
+        - "apiauth.cp1-my.lvh.me"        # API authentication
+        - "platform.cp1-my.lvh.me"       # Platform services
+        # Control Plane TUNNEL domain (for tunnel connections)
+        - "benelux.cp1-tunnel.lvh.me"    # Your subscription tunnel domain
+        - "cp1-tunnel.lvh.me"            # Base tunnel domain
+
+# Component-specific hostAliases (if global doesn't work or needs override)
+tp-tibtunnel:
+  # hostAliases add entries to /etc/hosts inside the pod
+  hostAliases:
+    - ip: "10.105.44.31"  # ⚠️ IMPORTANT: Replace with YOUR Traefik service ClusterIP
+      hostnames:
+        - "benelux.cp1-tunnel.lvh.me"   # Your subscription tunnel domain
+        - "cp1-tunnel.lvh.me"            # Base tunnel domain
+        # Add more tunnel hostnames if needed:
+        # - "other-subscription.cp1-tunnel.lvh.me"
+
+tp-cp-proxy:
+  # hostAliases for cp-proxy components (including Jobs/init containers)
+  hostAliases:
+    - ip: "10.105.44.31"  # ⚠️ IMPORTANT: Replace with YOUR Traefik service ClusterIP
+      hostnames:
+        - "benelux.cp1-my.lvh.me"       # Your subscription MY domain
+        - "cp1-my.lvh.me"                # Base MY domain
+        - "account.cp1-my.lvh.me"
+        - "admin.cp1-my.lvh.me"
+        - "apiauth.cp1-my.lvh.me"
+        - "platform.cp1-my.lvh.me"
