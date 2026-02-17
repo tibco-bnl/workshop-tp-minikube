@@ -23,7 +23,7 @@ Everything runs locally on your laptop or workstation - no Azure, AWS, or GCP ac
 
 ### 🏗️ Complete Setup Guide
 
-#### [📖 How to Set Up Minikube with Control Plane and Data Plane](./howto/how-to-cp-and-dp-minikube-setup-guide.md)
+#### [📖 How to Set Up Minikube with Control Plane and Data Plane](./howto/how-to-cp-and-dp-minikube-setup-guide)
 **Comprehensive guide for complete TIBCO Platform deployment on Minikube**
 - 🎯 **Scope**: Minikube cluster setup + Control Plane + Data Plane on same cluster
 - 🔧 **Features**: 
@@ -94,7 +94,7 @@ minikube tunnel -p ${MINIKUBE_PROFILE}
 # See: howto/how-to-cp-and-dp-minikube-setup-guide.md
 ```
 
-For detailed step-by-step instructions, follow the [complete setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide.md).
+For detailed step-by-step instructions, follow the [complete setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide).
 
 ## 🏛️ Architecture
 
@@ -196,7 +196,7 @@ PostgreSQL 16 deployed in Control Plane namespace:
 ## 🎓 Learning Path
 
 ### Beginners
-1. Start with the [complete setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide.md)
+1. Start with the [complete setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide)
 2. Follow step-by-step instructions
 3. Understand each component as it's deployed
 4. Access the Control Plane UI and explore
@@ -285,7 +285,7 @@ export TP_INGRESS_CONTROLLER="traefik"  # or "nginx"
 
 ## 🐛 Troubleshooting
 
-Common issues and solutions are documented in the [setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide.md#part-11-troubleshooting).
+Common issues and solutions are documented in the [setup guide](./howto/how-to-cp-and-dp-minikube-setup-guide#part-11-troubleshooting).
 
 ### Quick Fixes
 
@@ -366,7 +366,7 @@ This project is licensed under the same license as specified in the [LICENSE](LI
 ## 🆘 Support
 
 For issues and questions:
-1. Check the [Troubleshooting section](./howto/how-to-cp-and-dp-minikube-setup-guide.md#part-11-troubleshooting)
+1. Check the [Troubleshooting section](./howto/how-to-cp-and-dp-minikube-setup-guide#part-11-troubleshooting)
 2. Review existing GitHub issues
 3. Create a new issue with:
    - Minikube version
@@ -398,7 +398,7 @@ For issues and questions:
 
 Ready to deploy TIBCO Platform on Minikube? Start here:
 
-1. **[Read the Complete Setup Guide](./howto/how-to-cp-and-dp-minikube-setup-guide.md)** - Comprehensive step-by-step instructions
+1. **[Read the Complete Setup Guide](./howto/how-to-cp-and-dp-minikube-setup-guide)** - Comprehensive step-by-step instructions
 2. **Check System Requirements** - Ensure you have 16GB RAM and 50GB disk
 3. **Install Prerequisites** - kubectl, Helm, Minikube, OpenSSL
 4. **Follow the Guide** - Execute commands as documented
