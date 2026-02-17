@@ -1,7 +1,6 @@
 # TIBCO Platform on Minikube Workshop
 
-> 📖 **View this guide on GitHub Pages** with interactive diagrams: [https://USERNAME.github.io/workshop-tp-minikube/](https://USERNAME.github.io/workshop-tp-minikube/)  
-> (Replace USERNAME with your GitHub username after enabling GitHub Pages - [setup instructions](./docs/GITHUB-PAGES-SETUP.md))
+> 📖 **View this guide on GitHub Pages** with interactive diagrams: [https://tibco-bnl.github.io/workshop-tp-minikube/](https://tibco-bnl.github.io/workshop-tp-minikube/)  
 
 This repository provides comprehensive guides and resources for deploying **TIBCO Platform** on **Minikube** for local development and testing. It offers a complete local Kubernetes environment for learning, development, and demonstrating TIBCO Platform capabilities.
 
