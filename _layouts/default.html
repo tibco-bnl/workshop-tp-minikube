@@ -14,8 +14,26 @@
   <!-- Mermaid.js for diagram rendering -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    // Initialize Mermaid when DOM is ready
+    // Initialize Mermaid and convert code blocks
     document.addEventListener('DOMContentLoaded', function() {
+      // Find all code blocks with language-mermaid class (created by kramdown)
+      const mermaidCodeBlocks = document.querySelectorAll('pre code.language-mermaid');
+      
+      mermaidCodeBlocks.forEach((codeBlock) => {
+        // Get the mermaid code
+        const mermaidCode = codeBlock.textContent;
+        
+        // Create a new div with class="mermaid"
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidCode;
+        
+        // Replace the pre element with the new div
+        const preElement = codeBlock.parentElement;
+        preElement.parentElement.replaceChild(mermaidDiv, preElement);
+      });
+      
+      // Initialize Mermaid after conversion
       mermaid.initialize({ 
         startOnLoad: true,
         theme: 'default',
@@ -34,6 +52,9 @@
           curve: 'basis'
         }
       });
+      
+      // Manually trigger Mermaid rendering
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
     });
   </script>
   {% include head-custom.html %}
