@@ -3,7 +3,7 @@
 > 📖 **View this guide on GitHub Pages** with interactive diagrams: [https://tibco-bnl.github.io/workshop-tp-minikube/](https://tibco-bnl.github.io/workshop-tp-minikube/)  
 
 > **Current Release:** [v1.14.0](./releases/v1.14.0.md) | **TIBCO Platform CP Version:** 1.14.0  
-> 📋 **Release History:** See [releases](./releases) folder for all versions
+> 📋 **Release History:** See `releases` folder for all versions
 
 This repository provides comprehensive guides and resources for deploying **TIBCO Platform** on **Minikube** for local development and testing. It offers a complete local Kubernetes environment for learning, development, and demonstrating TIBCO Platform capabilities.
 
